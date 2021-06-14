@@ -38,16 +38,16 @@ spec:
     spec:
       containers:
         - name: nextcloud
-          image: nextcloud:21.0.2-apache
+          image: nextcloud:stable
           env:
             - name: MYSQL_DATABASE
               value: nextcloud
             - name: MYSQL_USER
               value: root
             - name: MYSQL_PASSWORD
-              value: test123
+              value: 'test123'
             - name: MYSQL_HOST
-              value: vworkspace-db:3306
+              value: vworkspace-db
             - name: REDIS_HOST
               value: 'vworkspace-redis'
             - name: REDIS_HOST_PORT
@@ -57,22 +57,22 @@ spec:
           volumeMounts:
             - name: vworkspace-data
               mountPath: /var/www/html/data
-            # - mountPath: /var/www/html/theme
-            #   name: vworkspace-theme
             - name: vworkspace-custom-app
               mountPath: /var/www/html/custom_apps
             - name: vworkspace-config
               mountPath: /var/www/html/config
+            - name: vworkspace-theme
+              mountPath: /var/www/html/themes
       volumes:
         - name: vworkspace-data
           hostPath: 
             path: /mnt/voffice/data
-        # - name: vworkspace-theme
-        #   hostPath: 
-        #     path: mnt/voffice/theme
         - name: vworkspace-custom-app
           hostPath: 
             path: /mnt/voffice/custom_apps
         - name: vworkspace-config
           hostPath: 
             path: /mnt/voffice/config
+        - name: vworkspace-theme
+          hostPath: 
+            path: /mnt/voffice/theme
