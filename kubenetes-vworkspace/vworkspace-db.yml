@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vworkspace-db
+  labels:
+    app: vworkspace
+    rold: database
+spec:
+  selector:
+    app: vworkspace
+    rold: database
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vworkspace-db
+  labels:
+    app: vworkspace
+    rold: database
+spec:
+  metadata:
+    name: vworkspace-db
+    labels:
+      app: vworkspace
+      rold: database
+  spec:
+    containers:
+      - name: mariadb
+        image: mariadb:10.6.1-focal
+        env:
+          - name: MARIADB_ROOT_PASSWORD
+            value: 'test123'
+        volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: vworkspacedb-volume
+    volume:
+      - name: vworkspacedb-volume
+        hostPath: 
+          path: mnt/voffice/db
