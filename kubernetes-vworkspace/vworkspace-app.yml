@@ -66,13 +66,13 @@ spec:
       volumes:
         - name: vworkspace-data
           hostPath: 
-            path: /mnt/voffice/data
+            path: /mnt/vworkspace/data
         - name: vworkspace-custom-app
           hostPath: 
-            path: /mnt/voffice/custom_apps
+            path: /mnt/vworkspace/custom_apps
         - name: vworkspace-config
           hostPath: 
-            path: /mnt/voffice/config
+            path: /mnt/vworkspace/config
         - name: vworkspace-theme
           hostPath: 
-            path: /mnt/voffice/theme
+            path: /mnt/vworkspace/theme
