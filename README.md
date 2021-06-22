@@ -4,4 +4,4 @@
 - [Hướng dẫn](vagrant-script/vagrant-guide.md)
 
 ## 2. Hướng dẫn tạo triển khai vwworkspace cơ bản trên kubernetes
-- [Hướng dẫn](kubenetes-vworkspace/vworkspace-kube-deploy-guide.md)
+- [Hướng dẫn](kubernetes-vworkspace/vworkspace-kube-deploy-guide.md)
