@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vworkspace-redis
+  labels:
+    app: vworkspace
+    role: cache
+spec:
+  selector:
+    app: vworkspace
+    role: cache
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vworkspace-redis
+  labels:
+    app: vworkspace
+    role: cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vworkspace
+      role: cache
+  template:
+    metadata:
+      name: vworkspace-redis
+      labels:
+        app: vworkspace
+        role: cache
+    spec:
+      containers:
+        - name: redis
+          image: redis:6.2.4
+          ports:
+            - containerPort: 6379
