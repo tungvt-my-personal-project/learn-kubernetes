@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heketi
+  labels:
+    name: heketi
+spec:
+  selector:
+    matchLabels:
+      name: heketi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: heketi
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+      - name: heketi
+        image: <Image>
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+
+
