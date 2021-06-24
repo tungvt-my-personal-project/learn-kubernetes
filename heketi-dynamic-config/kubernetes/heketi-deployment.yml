@@ -1,62 +1,71 @@
-- apiVersion: v1
-  kind: Service
-  metadata:
+apiVersion: v1
+kind: Service
+metadata:
+  name: heketi
+  labels:
     name: heketi
-    labels:
-      name: heketi
-  spec:
-    type: NodePort
-    selector:
-      name: heketi
-    ports:
-      port: 8080
+spec:
+  type: NodePort
+  selector:
+    name: heketi
+  ports:
+    - port: 8080
       targetPort: 8080
       nodePort: 30001
 
-- apiVersion: v1
-  kind: Deployment
-  metadata:
-    name: heketi
-  spec:
-    selector:
-      matchLabels:
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heketi
+spec:
+  selector:
+    matchLabels:
+      name: heketi
+  template:
+    metadata:
+      labels:
         name: heketi
-    template:
-      metadata:
-        labels:
-          name: heketi
-      spec:
-        containers:
-        - name: heketi
-          imagePullPolicy: Always
-          image: heketi:dev
-          env:
-            - name: HEKETI_EXECUTOR
-              value: ssh
-            - name: HEKETI_SSH_USER
-              value: heketi
-            - name: HEKETI_SSH_PORT
-              value: "22"
-            - name: HEKETI_SSH_KEYFILE
-              value: /root/.ssh/heketikey
-          resources:
-            limits:
-              memory: "256Mi"
-              cpu: "500m"
-          ports:
-          - containerPort: 8080
-          volumeMounts:
-            - mountPath: /root/.ssh
-              name: heketi-key
-            - mountPath: /var/lib/heketi
-              name: heketi-db-volume
-        volumes:
-          - name: heketi-db-volume
-            glusterfs:
-              endpoints: gluster-cluster
-              path: heketi/db
-              readOnly : false
-          - name: heketi-key
-            secret:
-              secretName: heketi-ssh-secret
+    spec:
+      containers:
+      - name: heketi
+        imagePullPolicy: IfNotPresent
+        image: heketi/heketi:9
+        env:
+          - name: HEKETI_EXECUTOR
+            value: ssh
+          - name: HEKETI_SSH_USER
+            value: heketi
+          - name: HEKETI_SSH_PORT
+            value: "22"
+          - name: HEKETI_SSH_KEYFILE
+            value: /root/.ssh/heketikey
+          - name: HEKETI_ADMIN_KEY
+            valueFrom:
+              secretKeyRef:
+                name: heketi-passwd-secret
+                key: passwd
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+          - mountPath: /root/.ssh
+            name: heketi-key
+          - mountPath: /var/lib/heketi
+            name: heketi-db-volume
+      volumes:
+        - name: heketi-db-volume
+          glusterfs:
+            endpoints: gluster-cluster
+            path: heketi/db
+            readOnly : false
+        - name: heketi-key
+          glusterfs:
+            endpoints: gluster-cluster
+            path: heketi/ssh
+            readOnly : false
 
