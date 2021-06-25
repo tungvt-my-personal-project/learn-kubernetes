@@ -39,7 +39,7 @@ spec:
           - name: HEKETI_EXECUTOR
             value: ssh
           - name: HEKETI_SSH_USER
-            value: heketi
+            value: root
           - name: HEKETI_SSH_PORT
             value: "22"
           - name: HEKETI_SSH_KEYFILE
