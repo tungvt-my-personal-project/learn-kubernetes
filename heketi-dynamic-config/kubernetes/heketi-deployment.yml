@@ -23,11 +23,14 @@ spec:
   selector:
     matchLabels:
       name: heketi
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         name: heketi
     spec:
+      terminationGracePeriodSeconds: 0
       containers:
       - name: heketi
         imagePullPolicy: IfNotPresent
@@ -57,6 +60,18 @@ spec:
             name: heketi-key
           - mountPath: /var/lib/heketi
             name: heketi-db-volume
+        readinessProbe:
+          timeoutSeconds: 3
+          initialDelaySeconds: 10
+          httpGet:
+            path: /hello
+            port: 8080
+        livenessProbe:
+          timeoutSeconds: 3
+          initialDelaySeconds: 15
+          httpGet:
+            path: /hello
+            port: 8080
       volumes:
         - name: heketi-db-volume
           glusterfs:
@@ -64,8 +79,7 @@ spec:
             path: heketi/db
             readOnly : false
         - name: heketi-key
-          glusterfs:
-            endpoints: gluster-cluster
-            path: heketi/ssh
-            readOnly : false
+          secret:
+            secretName: heketi-ssh-secret
+            
 
