@@ -1,0 +1,57 @@
+
+apiVersion: v1
+kind: PersistentVolumeClaimList
+items:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: vworkspace-data
+    spec:
+      storageClassName: gluster-sc
+      resources:
+        requests:
+          storage: 20Gi
+      volumeMode: Filesystem
+      accessModes:
+        - ReadWriteMany
+  
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: vworkspace-config
+    spec:
+      storageClassName: gluster-sc
+      resources:
+        requests:
+          storage: 1Gi
+      volumeMode: Filesystem
+      accessModes:
+        - ReadWriteMany
+  
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: vworkspace-custom-app
+    spec:
+      storageClassName: gluster-sc
+      resources:
+        requests:
+          storage: 5Gi
+      volumeMode: Filesystem
+      accessModes:
+        - ReadWriteMany
+
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: vworkspace-theme
+    spec:
+      storageClassName: gluster-sc
+      resources:
+        requests:
+          storage: 4Gi
+      volumeMode: Filesystem
+      accessModes:
+        - ReadWriteMany
+    
+

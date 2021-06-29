@@ -45,7 +45,11 @@ spec:
               name: vworkspacedb-volume
           ports:
             - containerPort: 3306
+          resources:
+            limits:
+              cpu: 1
+              memory: 1G     
       volumes:
         - name: vworkspacedb-volume
-          hostPath: 
-            path: /mnt/vworkspace/db
+          persistentVolumeClaim: 
+            claimName: vworkspace-db

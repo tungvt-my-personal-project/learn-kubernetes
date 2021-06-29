@@ -6,7 +6,7 @@ metadata:
     app: vworkspace
     role: app
 spec:
-  type: NodePort
+  #type: NodePort
   selector:
     app: vworkspace
     role: app
@@ -14,7 +14,7 @@ spec:
     - 
       port: 80
       targetPort: 80
-      nodePort: 30008
+      #nodePort: 30008
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -24,7 +24,7 @@ metadata:
     app: vworkspace
     role: app
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: vworkspace
@@ -65,14 +65,17 @@ spec:
               mountPath: /var/www/html/themes
       volumes:
         - name: vworkspace-data
-          hostPath: 
-            path: /mnt/vworkspace/data
+          persistentVolumeClaim: 
+            claimName: vworkspace-data
+
         - name: vworkspace-custom-app
-          hostPath: 
-            path: /mnt/vworkspace/custom_apps
+          persistentVolumeClaim: 
+            claimName: vworkspace-custom-app
+
         - name: vworkspace-config
-          hostPath: 
-            path: /mnt/vworkspace/config
+          persistentVolumeClaim: 
+            claimName: vworkspace-config
+            
         - name: vworkspace-theme
-          hostPath: 
-            path: /mnt/vworkspace/theme
+          persistentVolumeClaim: 
+            claimName: vworkspace-theme
