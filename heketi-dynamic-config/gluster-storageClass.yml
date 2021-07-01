@@ -2,6 +2,7 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: gluster-sc
+  namespace: gluster-dynamic
 provisioner: kubernetes.io/glusterfs
 parameters:
   resturl: http://127.0.0.1:30001
