@@ -5,3 +5,5 @@
 
 ## 2. Hướng dẫn tạo triển khai vwworkspace cơ bản trên kubernetes
 - [Hướng dẫn](kubernetes-vworkspace/vworkspace-kube-deploy-guide.md)
+
+## 3. Cài đặt và cấu hình glusterfs cho dynamic provisioning

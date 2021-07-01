@@ -4,6 +4,7 @@ metadata:
   name: heketi
   labels:
     name: heketi
+  namespace: gluster-dynamic
 spec:
   type: NodePort
   selector:
@@ -19,6 +20,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: heketi
+  namespace: gluster-dynamic
 spec:
   selector:
     matchLabels:
